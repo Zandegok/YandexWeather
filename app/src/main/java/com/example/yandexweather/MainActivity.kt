@@ -1,5 +1,6 @@
 package com.example.yandexweather
 
+import WeatherData
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -34,7 +35,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateTextViewJSON(data: String) {
-        textViewJSON.text = data
+        with(WeatherData.parseFromString(data)){
+        textViewJSON.text ="Температура:$temperature\n" +
+                "Дата:${date.toPrettyString}\n" +
+                "Погода:$conditionValue\n"
+        }
+
     }
 
 }
