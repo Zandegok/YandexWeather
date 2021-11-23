@@ -1,5 +1,4 @@
 import com.google.gson.JsonParser
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,15 +41,14 @@ data class WeatherData(
 
         fun parseFromString(data: String): WeatherData {
             with(JsonParser.parseString(data).asJsonObject) {
-
                 return try {
                     WeatherData(
                         SimpleDateFormat("yyyy-MM-dd")
-                            .parse(getAsJsonArray("forecasts")[0].asJsonObject.get("date").asString),
+                            .parse(getAsJsonArray("forecasts")[0]
+                                .asJsonObject.get("date").asString)?:Date(),
                         getAsJsonObject("fact").get("temp").asInt,
                         getAsJsonObject("fact").get("icon").asString,
                         getAsJsonObject("fact").get("condition").asString
-
                     )
                 } catch (e: Exception) {
                     WeatherData(Date(0), 0, e.toString(), "")
