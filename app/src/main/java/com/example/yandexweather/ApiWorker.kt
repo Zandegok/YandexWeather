@@ -32,24 +32,6 @@ class ApiWorker(
         }
         volleyQueue.add(request)
     }
-    fun makeGetImageRequest(
-        url: String,
-        function: (Bitmap) -> Unit,
-        headers: MutableMap<String, String> = hashMapOf(),
-    ) {
-        val request = object : ImageRequest(
-            url,
-            Response.Listener(function),
-            0,0,null,
-            Response.ErrorListener {
-                Toast.makeText(applicationContext, it.toString(), Toast.LENGTH_LONG).show()
-            }
-        ) {
-            override fun getHeaders(): MutableMap<String, String> {
-                return headers
-            }
-        }
-        volleyQueue.add(request)
-    }
+
 
 }

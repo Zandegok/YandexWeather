@@ -14,6 +14,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.caverock.androidsvg.SVG
+import com.google.gson.Gson
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Volley.newRequestQueue(applicationContext)
-        var url = "https://api.weather.yandex.ru/v2/forecast?lat=53.243562&lon=34.363425"
+        var url = "https://jsonplaceholder.typicode.com/todos/1"
         buttonLoadWeather = findViewById(R.id.buttonLoadWeather)
         textViewJSON = findViewById(R.id.textViewJSON)
         imageView = findViewById(R.id.imageView)
@@ -36,8 +37,9 @@ class MainActivity : AppCompatActivity() {
         var headers = hashMapOf<String, String>()
         headers["X-Yandex-API-Key"] = "a6d5c190-e8b0-4128-b9bc-6d50fb1ebb90"
         buttonLoadWeather.setOnClickListener {
-            apiWorker.makeGetRequest(url, ::updateTextViewJSON, headers)
+            apiWorker.makeGetRequest(url, ::updateToDoItem, headers)
         }
+
     }
 
     fun updateTextViewJSON(data: String) {
@@ -61,5 +63,15 @@ class MainActivity : AppCompatActivity() {
         //image=Bitmap.createScaledBitmap()
         imageView.setImageBitmap(image)
     }
-
+    private fun updateToDoItem(data: String) {
+        var toDoItem=Gson().fromJson(data,object{
+            lateinit var userId:Integer
+            lateinit var id:Integer
+            lateinit var title:String
+        lateinit var body:String
+        }.javaClass)
+        with(toDoItem){
+        textViewJSON.text=toString()
+        }
+    }
 }
