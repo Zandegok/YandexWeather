@@ -1,11 +1,8 @@
 package com.example.yandexweather
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.media.Image
 import android.widget.Toast
 import com.android.volley.Response
-import com.android.volley.toolbox.ImageRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 

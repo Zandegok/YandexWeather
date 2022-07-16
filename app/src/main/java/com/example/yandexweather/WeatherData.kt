@@ -1,3 +1,5 @@
+package com.example.yandexweather
+
 import com.google.gson.JsonParser
 import java.text.SimpleDateFormat
 import java.util.*
@@ -6,10 +8,10 @@ data class WeatherData(
     var date: Date,
     var temperature: Int,
     var icon: String,
-    var condition: String
+    var condition: String,
 ) {
     companion object {
-        var conditions: Map<String, String> = mapOf(
+        private var conditions: Map<String, String> = mapOf(
             "clear" to "ясно",
             "partly-cloudy" to "малооблачно",
             "cloudy" to "облачно с прояснениями",
@@ -43,9 +45,9 @@ data class WeatherData(
             with(JsonParser.parseString(data).asJsonObject) {
                 return try {
                     WeatherData(
-                        SimpleDateFormat("yyyy-MM-dd")
+                        SimpleDateFormat("yyyy-MM-dd", Locale.US)
                             .parse(getAsJsonArray("forecasts")[0]
-                                .asJsonObject.get("date").asString)?:Date(),
+                                .asJsonObject.get("date").asString) ?: Date(),
                         getAsJsonObject("fact").get("temp").asInt,
                         getAsJsonObject("fact").get("icon").asString,
                         getAsJsonObject("fact").get("condition").asString
@@ -60,5 +62,5 @@ data class WeatherData(
 
     val conditionValue get() = conditionToPrettyString(condition)
     val iconURL get() = getIconUrl(icon)
-    val Date.toPrettyString get() = SimpleDateFormat("dd.MM.yyyy").format(this)
+    val Date.toPrettyString: String get() = SimpleDateFormat("dd.MM.yyyy", Locale.US).format(this)
 }

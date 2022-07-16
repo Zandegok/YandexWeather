@@ -1,23 +1,12 @@
 package com.example.yandexweather
 
-import WeatherData
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.toolbox.Volley
 import com.caverock.androidsvg.SVG
-import com.google.gson.Gson
-import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.URL
 
 class MainActivity : AppCompatActivity() {
     private lateinit var buttonLoadWeather: Button
@@ -29,24 +18,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Volley.newRequestQueue(applicationContext)
-        var url = "https://jsonplaceholder.typicode.com/todos/1"
+        val url = "https://jsonplaceholder.typicode.com/todos/1"
         buttonLoadWeather = findViewById(R.id.buttonLoadWeather)
         textViewJSON = findViewById(R.id.textViewJSON)
         imageView = findViewById(R.id.imageView)
         apiWorker = ApiWorker(applicationContext)
-        var headers = hashMapOf<String, String>()
+        val headers = hashMapOf<String, String>()
         headers["X-Yandex-API-Key"] = "a6d5c190-e8b0-4128-b9bc-6d50fb1ebb90"
         buttonLoadWeather.setOnClickListener {
-            apiWorker.makeGetRequest(url, ::updateToDoItem, headers)
+            apiWorker.makeGetRequest(url, ::updateTextViewJSON, headers)
         }
 
     }
 
-    fun updateTextViewJSON(data: String) {
+    private fun updateTextViewJSON(data: String) {
         with(WeatherData.parseFromString(data)) {
-            textViewJSON.text = "Температура:$temperature\n" +
-                    "Дата:${date.toPrettyString}\n" +
-                    "Погода:$conditionValue\n"
+            textViewJSON.text = "Температура:$temperature\nДата:${date.toPrettyString}\nПогода:$conditionValue\n"
             apiWorker.makeGetRequest(iconURL,::setSVG)
         }
 
@@ -54,24 +41,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSVG(data: String) {
-        var svg=SVG.getFromString(data)
+        val svg=SVG.getFromString(data)
         svg.documentWidth=100F
         svg.documentHeight=100F
-        var image=Bitmap.createBitmap(100, 100,Bitmap.Config.ARGB_8888)
-        var canvas= Canvas(image)
+        val image=Bitmap.createBitmap(100, 100,Bitmap.Config.ARGB_8888)
+        val canvas= Canvas(image)
         svg.renderToCanvas(canvas)
-        //image=Bitmap.createScaledBitmap()
         imageView.setImageBitmap(image)
-    }
-    private fun updateToDoItem(data: String) {
-        var toDoItem=Gson().fromJson(data,object{
-            lateinit var userId:Integer
-            lateinit var id:Integer
-            lateinit var title:String
-        lateinit var body:String
-        }.javaClass)
-        with(toDoItem){
-        textViewJSON.text=toString()
-        }
     }
 }
