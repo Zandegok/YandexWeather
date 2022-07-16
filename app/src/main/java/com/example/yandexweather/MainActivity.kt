@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         var headers = hashMapOf<String, String>()
         headers["X-Yandex-API-Key"] = "a6d5c190-e8b0-4128-b9bc-6d50fb1ebb90"
         buttonLoadWeather.setOnClickListener {
-            apiWorker.makeGetRequest(url, ::updateToDoItem, headers)
+            apiWorker.makeGetRequest(url, ::updateTextViewJSON, headers)
         }
 
     }
@@ -62,16 +62,5 @@ class MainActivity : AppCompatActivity() {
         svg.renderToCanvas(canvas)
         //image=Bitmap.createScaledBitmap()
         imageView.setImageBitmap(image)
-    }
-    private fun updateToDoItem(data: String) {
-        var toDoItem=Gson().fromJson(data,object{
-            lateinit var userId:Integer
-            lateinit var id:Integer
-            lateinit var title:String
-        lateinit var body:String
-        }.javaClass)
-        with(toDoItem){
-        textViewJSON.text=toString()
-        }
     }
 }
