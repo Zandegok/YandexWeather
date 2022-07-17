@@ -1,5 +1,6 @@
 package com.example.yandexweather
 
+import com.example.yandexweather.WeatherData
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -8,12 +9,24 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.toolbox.Volley
 import com.caverock.androidsvg.SVG
 
+/**
+ * Главный класс, обладающий наибольшим доступом к функциям приложения и инициализирующий его
+ *
+ */
 class MainActivity : AppCompatActivity() {
     private lateinit var buttonLoadWeather: Button
     private lateinit var textViewJSON: TextView
     private lateinit var imageView: ImageView
-
     private lateinit var apiWorker: ApiWorker
+
+    /**
+     * *Вызывается при создании приложения*
+     *
+     * Создаёт очередь запросов к серверу,
+     * привязывает элементы формы к локальным свойствам,
+     * привязывает к нажатию на кнопку вызов зарпоса погоды и обработки его результата через [updateTextViewJSON]
+     *
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,6 +44,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Распаковывает JSON строку как объект [WeatherData] и кладёт
+     * её параметры в поля, а затем подгружает картинку по ссылке и отображает её
+     */
     private fun updateTextViewJSON(data: String) {
         with(WeatherData.parseFromString(data)) {
             textViewJSON.text = "Температура:$temperature\nДата:${date.toPrettyString}\nПогода:$conditionValue\n"

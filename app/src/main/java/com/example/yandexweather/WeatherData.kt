@@ -11,7 +11,7 @@ data class WeatherData(
     var condition: String,
 ) {
     companion object {
-        private var conditions: Map<String, String> = mapOf(
+        var conditions: Map<String, String> = mapOf(
             "clear" to "ясно",
             "partly-cloudy" to "малооблачно",
             "cloudy" to "облачно с прояснениями",
@@ -62,5 +62,5 @@ data class WeatherData(
 
     val conditionValue get() = conditionToPrettyString(condition)
     val iconURL get() = getIconUrl(icon)
-    val Date.toPrettyString: String get() = SimpleDateFormat("dd.MM.yyyy", Locale.US).format(this)
+    val Date.toPrettyString get() = SimpleDateFormat("dd.MM.yyyy", Locale.US).format(this)
 }
