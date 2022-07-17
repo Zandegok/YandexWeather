@@ -6,10 +6,23 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 
+/**
+ * Вызывает get запросы к серверу
+ *
+ * @property applicationContext
+ */
 class ApiWorker(
     var applicationContext: Context,
 ) {
     private var volleyQueue = Volley.newRequestQueue(applicationContext)
+
+    /**
+     * Вызывает get запрос без тела
+     *
+     * @param url адрес запроса
+     * @param function функция, вызываемая в случае успешного запроса
+     * @param headers заголовки запроса
+     */
     fun makeGetRequest(
         url: String,
         function: (String) -> Unit,

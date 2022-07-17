@@ -22,15 +22,13 @@ class MainActivity : AppCompatActivity() {
     /**
      * *Вызывается при создании приложения*
      *
-     * Создаёт очередь запросов к серверу,
-     * привязывает элементы формы к локальным свойствам,
+     * Привязывает элементы формы к локальным свойствам,
      * привязывает к нажатию на кнопку вызов зарпоса погоды и обработки его результата через [updateTextViewJSON]
      *
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Volley.newRequestQueue(applicationContext)
         val url = "https://jsonplaceholder.typicode.com/todos/1"
         buttonLoadWeather = findViewById(R.id.buttonLoadWeather)
         textViewJSON = findViewById(R.id.textViewJSON)

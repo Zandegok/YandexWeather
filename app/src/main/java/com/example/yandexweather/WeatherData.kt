@@ -4,6 +4,16 @@ import com.google.gson.JsonParser
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Класс, хранящий информацию о прогнозе и обрабатывающий её
+ *
+ * @property date время, на сервере во время обработки запроса
+ * @property temperature текущая температура в градусах Цельсия
+ * @property icon имя jpg файла погоды на сервере без разширения
+ * @property condition текущая погода в виде kebab-case  английского значения
+ * @property conditionValue текущая погода в виде строки на русском
+ * @property iconURL полный путь к изображению погоды на сервере
+ */
 data class WeatherData(
     var date: Date,
     var temperature: Int,
